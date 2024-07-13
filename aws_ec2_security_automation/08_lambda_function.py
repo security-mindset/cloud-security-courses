@@ -33,7 +33,7 @@ def lambda_handler(event, context):
         # Send notification
         sns = boto3.client('sns')
         sns.publish(
-            TopicArn='arn:aws:sns:us-west-2:123456789012:example-topic',
+            TopicArn='arn:aws:sns:us-west-2:XXXXXXXX:sm-topic',
             Message='Instance {} has been isolated due to security finding.'.format(instance_id),
             Subject='Instance Isolation Alert'
         )

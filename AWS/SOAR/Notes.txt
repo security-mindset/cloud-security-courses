@@ -1,4 +1,0 @@
-Centraliser les logs tous les jours dans un bucket S3 par année
-- AWS Security Hub
-- AWS Config 
-- AWS Cognito

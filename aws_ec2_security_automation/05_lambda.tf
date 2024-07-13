@@ -52,6 +52,14 @@ resource "aws_iam_policy" "lambda_policy" {
           "inspector:TagResource"
         ],
         Resource = "*"
+      },
+      {
+        Action = [
+          "ec2:DescribeInstances",
+          "ec2:ModifyInstanceAttribute"
+        ],
+        Effect = "Allow",
+        Resource = "*"
       }
     ]
   })
@@ -60,4 +68,13 @@ resource "aws_iam_policy" "lambda_policy" {
 resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
   role       = aws_iam_role.lambda_execution_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
+}
+
+# Lambda function permissions
+resource "aws_lambda_permission" "allow_cloudwatch" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.isolation_function.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.ec2_instance_state_change.arn
 }
